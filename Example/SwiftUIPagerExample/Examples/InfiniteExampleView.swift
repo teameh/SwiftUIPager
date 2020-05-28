@@ -11,52 +11,37 @@ import SwiftUI
 struct InfiniteExampleView: View {
 
     @State var page1: Int = 0
-    @State var page2: Int = 0
     @State var data1 = Array(0..<5)
-    @State var isPresented: Bool = false
+    @State var aspect: CGFloat = 0
+    @State var height: CGFloat = 150
+
     var data2 = Array(0..<5)
 
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 10) {
-                Text("Appending on the fly").bold()
+                Spacer()
+
+                Text(String(format: "itemAspectRatio: %.2f", self.aspect)).bold()
+                Slider(value: self.$aspect, in: 0.0...3).padding()
+
+                Text(String(format: "height: %.0f", self.height)).bold()
+                Slider(value: self.$height, in: 0...400).padding()
+
+                Spacer()
+
                 Pager(page: self.$page1,
                       data: self.data1,
                       id: \.self) {
                         self.pageView($0)
-                }
-                .onPageChanged({ page in
-                    guard page == self.data1.count - 2 else { return }
-                    guard let last = self.data1.last else { return }
-                    let newData = (1...5).map { last + $0 }
-                    withAnimation {
-                        self.isPresented.toggle()
-                        self.data1.append(contentsOf: newData)
                     }
-                })
-                .itemSpacing(10)
-                .itemAspectRatio(1.3, alignment: .end)
-                .padding(20)
-                .background(Color.gray.opacity(0.2))
-                .alert(isPresented: self.$isPresented, content: {
-                    Alert(title: Text("Congratulations!"),
-                          message: Text("Five more elements were appended to your Pager"),
-                          dismissButton: .default(Text("Okay!")))
-                })
+                    .itemSpacing(10)
+                    .itemAspectRatio(self.aspect, alignment: .center)
+                    .padding(20)
+                    .background(Color.gray.opacity(0.2))
+                    .frame(height: self.height)
 
                 Spacer()
-
-                Text("Looping Pager").bold()
-                Pager(page: self.$page2,
-                      data: self.data2,
-                      id: \.self) {
-                        self.pageView($0)
-                }
-                .loopPages()
-                .itemSpacing(10)
-                .itemAspectRatio(1.3, alignment: .start)
-                .padding(20)
-                .background(Color.gray.opacity(0.2))
             }
         }
     }
