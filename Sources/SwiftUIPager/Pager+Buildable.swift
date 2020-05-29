@@ -149,6 +149,10 @@ extension Pager: Buildable {
         return mutating(keyPath: \.itemAspectRatio, value: value)
             .mutating(keyPath: \.itemAlignment, value: alignment)
     }
+
+    public func customPageSize(_ getSize: @escaping (_ pagerSize: CGSize) -> CGSize?) -> Self {
+        return mutating(keyPath: \.getCustomPageSize, value: getSize)
+    }
     
     /// Sets the `itemAspectRatio` to take up all the space available
     public func expandPageToEdges() -> Self {

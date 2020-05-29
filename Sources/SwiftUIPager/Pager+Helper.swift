@@ -72,6 +72,10 @@ extension Pager {
 
     /// Size of each item. Takes into account `itemAspectRatio` and `verticalInsets` to fit the page into its container
     var pageSize: CGSize {
+        if let size = self.getCustomPageSize(size) {
+            return size
+        }
+
         guard let itemAspectRatio = self.itemAspectRatio else {
             return CGSize(width: size.width - 2 * sideInsets, height: size.height - 2 * sideInsets)
         }
