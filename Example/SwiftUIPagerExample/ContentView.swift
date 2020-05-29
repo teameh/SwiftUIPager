@@ -34,6 +34,11 @@ struct ContentView: View {
                 .tabItem({
                     Text("More")
                 }).tag(3)
+            CustomPageSizeExampleView()
+                .tabItem({
+                    Text("Custom")
+                }).tag(3)
+
         }
     }
     
