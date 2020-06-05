@@ -64,8 +64,11 @@ struct InfiniteExampleView: View {
         ZStack {
             Rectangle()
                 .fill(Color.yellow)
-            Text("Page: \(page)")
-                .bold()
+            Button(action: { print("Button tapped") }) {
+                Text("Page: \(page)")
+                    .bold()
+            }
+            .buttonStyle(PlainButtonStyle())
         }
         .cornerRadius(5)
         .shadow(radius: 5)
